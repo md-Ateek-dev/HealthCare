@@ -1,9 +1,138 @@
-import React from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FiMenu, FiX } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import Logo from '../../assets/Doctor_logo.svg';
+
+// Menu items with section IDs or URLs
+const menuItems = [
+  { name: 'Home', link: '/' },
+  { name: 'About', link: '/aboutUs' },
+  { name: 'Contact', link: '/contactus' },
+  { name: 'Blogs', link: '/blogs' },
+  { name: 'Gallery', link: '/gellery' },
+  { name: 'Doctors', link: '/doctors' },
+  { name: 'Departments', link: '/departments' },
+];
 
 const HeaderSection = () => {
-  return (
-    <div>HeaderSection</div>
-  )
-}
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState('Home');
+  const [underlineProps, setUnderlineProps] = useState({ left: 0, width: 0 });
+  const menuRefs = useRef([]);
+  const location = useLocation();
 
-export default HeaderSection
+  // Set active based on current route
+  React.useEffect(() => {
+    const found = menuItems.find(item => item.link === location.pathname);
+    if (found) setActive(found.name);
+  }, [location.pathname]);
+
+  // Set underline position and width when active changes
+  useLayoutEffect(() => {
+    const idx = menuItems.findIndex((item) => item.name === active);
+    if (menuRefs.current[idx]) {
+      const el = menuRefs.current[idx];
+      setUnderlineProps({
+        left: el.offsetLeft,
+        width: el.offsetWidth,
+      });
+    }
+  }, [active, menuOpen]);
+
+  // Handle menu click
+  const handleMenuClick = (item) => {
+    setActive(item.name);
+    setMenuOpen(false);
+  };
+
+  return (
+    <header className="sticky top-0 bg-white/90 backdrop-blur shadow-md z-50 transition-all">
+      <div className="max-w-6xl mx-auto py-3 px-4 flex justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center space-x-3">
+          <img src={Logo} alt="logo" className="h-10 w-10 object-contain" />
+          <span className="text-xl font-extrabold text-blue-700 tracking-tight hidden sm:inline">LifeCare</span>
+        </div>
+
+        {/* Desktop Menu */}
+        <nav className="hidden md:block relative">
+          <div className="flex space-x-8 relative">
+            {menuItems.map((item, index) => (
+              <Link
+                key={index}
+                to={item.link}
+                ref={el => menuRefs.current[index] = el}
+                onClick={() => handleMenuClick(item)}
+                className={`px-2 py-1 font-medium transition cursor-pointer ${
+                  active === item.name ? 'text-blue-600' : 'text-blue-800 hover:text-blue-500'
+                }`}
+                style={{ position: 'relative', zIndex: 1 }}
+              >
+                {item.name}
+              </Link>
+            ))}
+            {/* Animated Underline */}
+            <motion.div
+              className="absolute bottom-0 h-0.5 bg-blue-500 rounded-full"
+              layout
+              initial={false}
+              animate={{
+                left: underlineProps.left,
+                width: underlineProps.width,
+              }}
+              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              style={{ zIndex: 0 }}
+            />
+          </div>
+        </nav>
+
+        {/* Desktop CTA */}
+        <button className="hidden md:inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white px-5 py-2 rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all duration-200 hover:scale-105">
+          Book Appointment
+        </button>
+
+        {/* Mobile Hamburger */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            className="p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          >
+            {menuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden fixed inset-0 z-40 bg-white/95 backdrop-blur-lg transition-all duration-300 ${
+          menuOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="flex flex-col items-center justify-center h-full space-y-8">
+          {menuItems.map((item, index) => (
+            <Link
+              key={index}
+              to={item.link}
+              onClick={() => handleMenuClick(item)}
+              className={`text-lg font-semibold transition relative ${
+                active === item.name ? 'text-blue-600 underline underline-offset-4' : 'text-blue-700 hover:text-blue-500'
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <button
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-3 rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all duration-200 hover:scale-105"
+            onClick={() => setMenuOpen(false)}
+          >
+            Book Appointment
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default HeaderSection;
