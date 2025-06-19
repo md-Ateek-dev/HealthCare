@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
+import img1 from '/src/assets/Hospital14.avif';
+import img2 from '/src/assets/Doctor3.webp';
+import img3 from '/src/assets/Doctor.webp';
+import img4 from '/src/assets/Hospital11.avif';
+import img5 from '/src/assets/Doctor1.webp';
+import img6 from '/src/assets/Hospital_About.avif';
+import img7 from '/src/assets/Hospital12.avif';
+import img8 from '/src/assets/Hospital13.avif';
 
 const galleryImages = [
-  { src: '/src/assets/Hospital13.avif', alt: 'Hospital Entrance' },
-  { src: '/src/assets/Hospital14.avif', alt: 'Modern Patient Room' },
-  { src: '/src/assets/Doctor3.webp', alt: 'Advanced Operation Theater' },
-  { src: '/src/assets/Doctor.webp', alt: 'Pediatric Ward' },
-  { src: '/src/assets/Hospital11.avif', alt: 'Friendly Nursing Staff' },
-  { src: '/src/assets/Doctor1.webp', alt: 'Hospital Cafeteria' },
-  { src: '/src/assets/Hospital_About.avif', alt: 'Waiting Area' },
-  { src: '/src/assets/Hospital12.avif', alt: 'Diagnostic Imaging Center' },
+  { src: img1, alt: 'Hospital Entrance' },
+  { src: img2, alt: 'Modern Patient Room' },
+  { src: img3, alt: 'Advanced Operation Theater' },
+  { src: img4, alt: 'Pediatric Ward' },
+  { src: img5, alt: 'Friendly Nursing Staff' },
+  { src: img6, alt: 'Waiting Area' },
+  { src: img7, alt: 'Diagnostic Imaging Center' },
+  { src: img8, alt: 'Diagnostic Imaging Center' },
 ];
 
 const INITIAL_VISIBLE = 4;
@@ -28,17 +36,13 @@ const GallerySection = () => {
   return (
     <section id="gallery" className="bg-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
- className="text-4xl md:text-5xl font-bold text-blue-800 text-center mb-4">Hospital Gallery</h2>
-        <p  data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
-        className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-bold text-blue-800 text-center mb-4">Hospital Gallery</h2>
+        <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
           Explore our facilities, modern patient rooms, and the compassionate environment we provide at LifeCare Hospital.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {galleryImages.slice(0, visibleCount).map((img, idx) => (
-            <div 
-            data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
-            key={idx} className="overflow-hidden rounded-2xl shadow hover:shadow-lg shadow-blue-100 transition group">
+            <div key={idx} className="overflow-hidden rounded-2xl shadow hover:shadow-lg shadow-blue-100 transition group">
               <img
                 src={img.src}
                 alt={img.alt}

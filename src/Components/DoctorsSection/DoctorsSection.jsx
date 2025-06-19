@@ -1,36 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { FaUserMd, FaStethoscope, FaHeartbeat } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import img1 from '/src/assets/Hospital5.avif';
+import img2 from '/src/assets/Doctor1.avif';
+import img3 from '/src/assets/doctor2.avif';
+import img4 from '/src/assets/Doctor3.avif';
+import img5 from '/src/assets/Doctor2.webp';
 
 const doctors = [
   {
     name: 'Dr. Ayesha Sharma',
     specialty: 'Cardiologist',
-    photo: '/src/assets/Hospital5.avif',
+    photo: img1,
     description: 'Expert in interventional cardiology with 15+ years of experience.',
   },
   {
     name: 'Dr. Rahul Mehra',
     specialty: 'General Surgeon',
-    photo: '/src/assets/Doctor1.avif',
+    photo: img2,
     description: 'Specializes in minimally invasive surgeries and patient care.',
   },
   {
     name: 'Dr. Priya Verma',
     specialty: 'Pediatrician',
-    photo: '/src/assets/doctor2.avif',
+    photo: img3,
     description: 'Dedicated to child health and preventive medicine.',
   },
   {
     name: 'Dr. Sameer Khan',
     specialty: 'Neurologist',
-    photo: '/src/assets/Doctor3.avif',
+    photo: img4,
     description: 'Focuses on neurological disorders and patient rehabilitation.',
   },
   {
     name: 'Dr. Nisha Patel',
     specialty: 'Dermatologist',
-    photo: '/src/assets/Doctor2.avif',
+    photo: img5,
     description: 'Expert in skin care and cosmetic treatments.',
   },
 ];

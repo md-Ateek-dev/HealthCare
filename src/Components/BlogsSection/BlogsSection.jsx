@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
+import img1 from '/src/assets/Hospital13.avif';
+import img2 from '/src/assets/Doctor1.webp';
+import img3 from '/src/assets/Doctor.webp';
+import img4 from '/src/assets/Doctor3.webp';
+import img5 from '/src/assets/Doctor3.avif';
+import img6 from '/src/assets/Doctor2.webp';
 
 const blogPosts = [
   {
     title: "Understanding the Importance of Regular Health Screenings",
-    image: "/src/assets/Doctor2.webp",
+    image: img1,
     date: "June 15, 2025",
     author: "Dr. Ayesha Sharma",
     excerpt: "Learn why routine check-ups and screenings are vital for early disease detection and long-term wellness.",
@@ -11,7 +17,7 @@ const blogPosts = [
   },
   {
     title: "A Patient’s Journey: Recovering from Heart Surgery",
-    image: "/src/assets/Doctor1.webp",
+    image: img2,
     date: "June 10, 2025",
     author: "LifeCare Team",
     excerpt: "Read the inspiring story of Mr. Verma’s recovery and the care he received at LifeCare Hospital.",
@@ -19,7 +25,7 @@ const blogPosts = [
   },
   {
     title: "5 Tips for Managing Diabetes Effectively",
-    image: "/src/assets/Doctor.webp",
+    image: img3,
     date: "June 2, 2025",
     author: "Dr. Rahul Mehra",
     excerpt: "Practical advice for living well with diabetes, from diet to daily routines and ongoing support.",
@@ -27,7 +33,7 @@ const blogPosts = [
   },
   {
     title: "How to Prepare for Your Surgery",
-    image: "/src/assets/Doctor2.webp",
+    image: img4,
     date: "May 28, 2025",
     author: "Dr. Nisha Patel",
     excerpt: "Essential steps and tips to ensure a smooth surgical experience.",
@@ -35,7 +41,7 @@ const blogPosts = [
   },
   {
     title: "Mental Health Matters: Coping with Stress",
-    image: "/src/assets/Doctor1.webp",
+    image: img5,
     date: "May 20, 2025",
     author: "Dr. Sameer Khan",
     excerpt: "Discover practical ways to manage stress and improve mental well-being.",
@@ -43,7 +49,7 @@ const blogPosts = [
   },
   {
     title: "Vaccination Guide for Children",
-    image: "/src/assets/Doctor.webp",
+    image: img6,
     date: "May 12, 2025",
     author: "Dr. Priya Verma",
     excerpt: "A complete guide to childhood vaccinations and their importance.",
@@ -68,17 +74,13 @@ const BlogsSection = () => {
   return (
     <section id="blogs" className="bg-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
- className="text-3xl md:text-4xl font-bold text-blue-800 text-center mb-4">Hospital Blog & Health Tips</h2>
-        <p data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
- className="text-base text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-800 text-center mb-4">Hospital Blog & Health Tips</h2>
+        <p className="text-base text-gray-600 text-center mb-10 max-w-2xl mx-auto">
           Stay updated with the latest health tips, hospital news, and inspiring patient stories from our community.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.slice(0, visibleCount).map((post, idx) => (
             <div
-             data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
-
               key={idx}
               className="bg-white border border-blue-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-5 flex flex-col max-w-md mx-auto group"
               style={{ minHeight: 370 }}
