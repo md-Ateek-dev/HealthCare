@@ -1,22 +1,29 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiChevronDown } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import Logo from '../../assets/Doctor_logo.svg';
 
-// Menu items with section IDs or URLs
+// Main menu items (no Gallery, Blogs, Services here)
 const menuItems = [
   { name: 'Home', link: '/' },
   { name: 'About', link: '/aboutUs' },
   { name: 'Contact', link: '/contactus' },
-  { name: 'Blogs', link: '/blogs' },
-  { name: 'Gallery', link: '/gellery' },
   { name: 'Doctors', link: '/doctors' },
   { name: 'Departments', link: '/departments' },
 ];
 
+// Dropdown menu items
+const dropdownItems = [
+  { name: 'Gallery', link: '/gellery' },
+  { name: 'Blogs', link: '/blogs' },
+  { name: 'Services', link: '/services' },
+];
+
 const HeaderSection = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const [active, setActive] = useState('Home');
   const [underlineProps, setUnderlineProps] = useState({ left: 0, width: 0 });
   const menuRefs = useRef([]);
@@ -24,13 +31,24 @@ const HeaderSection = () => {
 
   // Set active based on current route
   React.useEffect(() => {
-    const found = menuItems.find(item => item.link === location.pathname);
-    if (found) setActive(found.name);
+    // Check main menu first
+    const foundMain = menuItems.find(item => item.link === location.pathname);
+    if (foundMain) {
+      setActive(foundMain.name);
+    } else {
+      // Then check dropdown
+      const foundDrop = dropdownItems.find(item => item.link === location.pathname);
+      if (foundDrop) setActive(foundDrop.name);
+    }
   }, [location.pathname]);
 
   // Set underline position and width when active changes
   useLayoutEffect(() => {
-    const idx = menuItems.findIndex((item) => item.name === active);
+    let idx = menuItems.findIndex((item) => item.name === active);
+    // If not found in main, check if active is dropdown
+    if (idx === -1 && active === 'More') {
+      idx = menuItems.length; // underline under "More"
+    }
     if (menuRefs.current[idx]) {
       const el = menuRefs.current[idx];
       setUnderlineProps({
@@ -40,11 +58,26 @@ const HeaderSection = () => {
     }
   }, [active, menuOpen]);
 
-  // Handle menu click
+  // Handle main menu click
   const handleMenuClick = (item) => {
     setActive(item.name);
     setMenuOpen(false);
+    setDropdownOpen(false);
   };
+
+  // Handle dropdown menu click
+  const handleDropdownClick = (item) => {
+    setActive(item.name);
+    setDropdownOpen(false);
+    setMenuOpen(false);
+  };
+
+  // Handle More hover/focus for desktop
+  const handleMoreMouseEnter = () => setDropdownOpen(true);
+  const handleMoreMouseLeave = () => setDropdownOpen(false);
+
+  // Handle More toggle for mobile
+  const handleMobileMoreClick = () => setMobileDropdownOpen((prev) => !prev);
 
   return (
     <header className="sticky top-0 bg-white/90 backdrop-blur shadow-md z-50 transition-all">
@@ -72,6 +105,40 @@ const HeaderSection = () => {
                 {item.name}
               </Link>
             ))}
+            {/* More Dropdown (Desktop) */}
+            <div
+              className="relative"
+              onMouseEnter={handleMoreMouseEnter}
+              onMouseLeave={handleMoreMouseLeave}
+              ref={el => menuRefs.current[menuItems.length] = el}
+              style={{ position: 'relative', zIndex: 1 }}
+            >
+              <button
+                className={`flex items-center px-2 py-1 font-medium transition duration-100 cursor-pointer ${
+                  dropdownItems.some(item => item.name === active) ? 'text-blue-600' : 'text-blue-800 hover:text-blue-500'
+                }`}
+                onClick={() => setDropdownOpen((prev) => !prev)}
+                type="button"
+              >
+                More <FiChevronDown className="ml-1" />
+              </button>
+              {dropdownOpen && (
+                <div className="absolute left-0 mt-2 w-44 bg-white border border-blue-100 rounded-xl shadow-lg z-50">
+                  {dropdownItems.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={item.link}
+                      onClick={() => handleDropdownClick(item)}
+                      className={`block px-4 py-2 text-blue-800 hover:bg-blue-50 hover:text-blue-600 transition rounded-xl ${
+                        active === item.name ? 'font-semibold bg-blue-50' : ''
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             {/* Animated Underline */}
             <motion.div
               className="absolute bottom-0 h-0.5 bg-blue-500 rounded-full"
@@ -123,6 +190,35 @@ const HeaderSection = () => {
               {item.name}
             </Link>
           ))}
+          {/* Mobile Dropdown */}
+          <div className="w-full flex flex-col items-center">
+            <button
+              className="flex items-center text-lg font-semibold text-blue-800 hover:text-blue-500 transition mb-2"
+              onClick={handleMobileMoreClick}
+              type="button"
+            >
+              More <FiChevronDown className="ml-1" />
+            </button>
+            {mobileDropdownOpen && (
+              <div className="w-44 bg-white border border-blue-100 rounded-xl shadow-lg z-50">
+                {dropdownItems.map((item, idx) => (
+                  <Link
+                    key={idx}
+                    to={item.link}
+                    onClick={() => {
+                      handleDropdownClick(item);
+                      setMobileDropdownOpen(false);
+                    }}
+                    className={`block px-4 py-2 text-blue-800 hover:bg-blue-50 hover:text-blue-600 transition rounded-xl text-center ${
+                      active === item.name ? 'font-semibold bg-blue-50' : ''
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           <button
             className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-3 rounded-full font-semibold shadow hover:from-blue-600 hover:to-blue-800 transition-all duration-200 hover:scale-105"
             onClick={() => setMenuOpen(false)}

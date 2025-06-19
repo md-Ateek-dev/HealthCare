@@ -76,8 +76,11 @@ const DoctorsSection = () => {
   return (
     <section className="bg-white py-16 px-4" id="doctors">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-blue-800 text-center mb-4">Meet Our Doctors</h2>
-        <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        <h2  data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+ className="text-4xl md:text-5xl font-bold text-blue-800 text-center mb-4">Meet Our Doctors</h2>
+        <p 
+        data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+        className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
           Our experienced and compassionate medical team is dedicated to providing the highest standard of care across all specialties.
         </p>
         <div className="relative w-full overflow-hidden">
@@ -90,7 +93,8 @@ const DoctorsSection = () => {
             }}
           >
             {cards.map((doc, idx) => (
-              <div
+              <div data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+
                 key={idx}
                 className="px-3 flex-shrink-0"
                 style={{

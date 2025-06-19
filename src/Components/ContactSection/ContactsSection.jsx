@@ -23,16 +23,21 @@ const ContactSection = () => {
     <section className="min-h-screen bg-white py-16 px-4 flex flex-col items-center" id='contact'>
       {/* Hero Heading */}
       <div className="max-w-2xl text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-blue-800 mb-4">Contact LifeCare Hospital</h1>
-        <p className="text-lg text-gray-700">
+        <h1 data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+ className="text-4xl md:text-5xl font-bold text-blue-800 mb-4">Contact LifeCare Hospital</h1>
+        <p
+         data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+         className="text-lg text-gray-700">
           We're here to help. Reach out for appointments, questions, or emergencies—our team responds quickly and compassionately.
         </p>
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div
+           data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+       className="w-full max-w-5xl bg-white rounded-3xl shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Contact Form */}
-        <form
+        <form 
           ref={formRef}
           className="flex flex-col gap-4"
           action="https://formsubmit.co/mohdateek.dev@gmail.com"
@@ -87,7 +92,7 @@ const ContactSection = () => {
           </div>
           <button
             type="submit"
-            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-3 rounded-lg shadow hover:from-blue-600 hover:to-blue-800 transition-all"
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-3 rounded-lg shadow hover:from-blue-600 hover:to-blue-800 transition-all cursor-pointer"
           >
             Send Message
           </button>
@@ -99,10 +104,10 @@ const ContactSection = () => {
             <h2 className="text-2xl font-semibold text-blue-700 mb-2">Contact Information</h2>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-center gap-3">
-                <FaPhoneAlt className="text-blue-600" /> <span>+91 12345 67890</span>
+                <FaPhoneAlt className="text-blue-600" /> <a href="tel: 7054375826"> <span>+91 7054375826</span></a>
               </li>
               <li className="flex items-center gap-3">
-                <FaEnvelope className="text-blue-600" /> <span>info@lifecarehospital.com</span>
+                <FaEnvelope className="text-blue-600" /> <a href="mohdateek.dev@gmail.com"><span>mohdateek.dev@gmail.com</span></a>
               </li>
               <li className="flex items-center gap-3">
                 <FaMapMarkerAlt className="text-blue-600" /> <span>123 Main Road, City, India</span>

@@ -12,10 +12,10 @@ const FooterSection = () => (
           LifeCare Hospital is dedicated to providing compassionate, world-class healthcare for your family. Your health, our priority.
         </p>
         <div className="flex space-x-3 mt-2">
-          <a href="#" aria-label="Facebook" className="hover:text-blue-400"><FaFacebookF /></a>
-          <a href="#" aria-label="Twitter" className="hover:text-blue-400"><FaTwitter /></a>
-          <a href="#" aria-label="Instagram" className="hover:text-blue-400"><FaInstagram /></a>
-          <a href="#" aria-label="LinkedIn" className="hover:text-blue-400"><FaLinkedinIn /></a>
+          <a href="https://www.facebook.com/share/192oPcVNFH/" aria-label="Facebook" className="hover:text-blue-400"><FaFacebookF /></a>
+          <a href="https://x.com/md_Ateek09?t=d03tkdmtmo5cmjJTv0b4PA&s=09" aria-label="Twitter" className="hover:text-blue-400"><FaTwitter /></a>
+          <a href="https://www.instagram.com/md_ateek09?igsh=ajZjNnFreWhwYWgx" aria-label="Instagram" className="hover:text-blue-400"><FaInstagram /></a>
+          <a href="https://www.linkedin.com/in/mohd-ateek-80a949256?" aria-label="LinkedIn" className="hover:text-blue-400"><FaLinkedinIn /></a>
         </div>
       </div>
 
@@ -35,9 +35,9 @@ const FooterSection = () => (
       <div>
         <h3 className="font-semibold text-lg mb-3">Contact Us</h3>
         <ul className="space-y-3 text-gray-200">
-          <li className="flex items-center gap-2"><FaPhoneAlt /> +91 7054375826</li>
-          <li className="flex items-center gap-2"><FaEnvelope /> info@lifecarehospi.com</li>
-          <li className="flex items-center gap-2"><FaMapMarkerAlt /> Lucknow Kurshi Road, Uttar Pradesh</li>
+         <a href="tel: 7054375826"> <li className="flex mt-1 items-center gap-2 cursor-pointer"><FaPhoneAlt /> +91 7054375826</li></a>
+         <a href="mohdateek.dev@gmail.com"> <li className="mt-1 flex items-center gap-2 cursor-pointer"><FaEnvelope /> info@lifecarehospi.com</li> </a>
+          <li className="flex mt-1 items-center gap-2 cursor-pointer"><FaMapMarkerAlt /> Lucknow Kurshi Road, Uttar Pradesh</li>
         </ul>
       </div>
 
@@ -54,7 +54,7 @@ const FooterSection = () => (
           />
           <button
             type="submit"
-            className="bg-white text-blue-600 border-1 border-amber-50 hover:bg-blue-700 hover:text-white px-4 py-2 rounded-r-sm font-semibold transition"
+            className="bg-white text-blue-600 border-1 border-amber-50 hover:bg-blue-700 hover:text-white px-4 py-2 rounded-r-sm font-semibold transition cursor-pointer"
           >
             Subscribe
           </button>
