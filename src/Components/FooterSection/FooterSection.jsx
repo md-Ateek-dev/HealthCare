@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt} from 'react-icons/fa';
+import { Facebook, FacebookIcon, InstagramIcon, Linkedin, Twitter } from 'lucide-react'
 import Logo from '/src/assets/Doctor_logo.svg'; // Replace with your logo path
 
 const FooterSection = () => (
@@ -12,10 +13,10 @@ const FooterSection = () => (
           LifeCare Hospital is dedicated to providing compassionate, world-class healthcare for your family. Your health, our priority.
         </p>
         <div className="flex space-x-3 mt-2">
-          <a href="https://www.facebook.com/share/192oPcVNFH/" aria-label="Facebook" className="hover:text-blue-400"><FaFacebookF /></a>
-          <a href="https://x.com/md_Ateek09?t=d03tkdmtmo5cmjJTv0b4PA&s=09" aria-label="Twitter" className="hover:text-blue-400"><FaTwitter /></a>
-          <a href="https://www.instagram.com/md_ateek09?igsh=ajZjNnFreWhwYWgx" aria-label="Instagram" className="hover:text-blue-400"><FaInstagram /></a>
-          <a href="https://www.linkedin.com/in/mohd-ateek-80a949256?" aria-label="LinkedIn" className="hover:text-blue-400"><FaLinkedinIn /></a>
+          <a href="https://www.facebook.com/share/192oPcVNFH/" aria-label="Facebook" className="hover:text-blue-400"><FacebookIcon/></a>
+          <a href="https://x.com/md_Ateek09?t=d03tkdmtmo5cmjJTv0b4PA&s=09" aria-label="Twitter" className="hover:text-blue-400"><Twitter absoluteStrokeWidth /></a>
+          <a href="https://www.instagram.com/md_ateek09?igsh=ajZjNnFreWhwYWgx" aria-label="Instagram" className="hover:text-blue-400"><InstagramIcon absoluteStrokeWidth /></a>
+          <a href="https://www.linkedin.com/in/mohd-ateek-80a949256?" aria-label="LinkedIn" className="hover:text-blue-400"><Linkedin /></a>
         </div>
       </div>
 
