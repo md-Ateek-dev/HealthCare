@@ -36,13 +36,14 @@ const GallerySection = () => {
   return (
     <section id="gallery" className="bg-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-blue-800 text-center mb-4">Hospital Gallery</h2>
-        <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        <h2 data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="text-4xl md:text-5xl font-bold text-blue-800 text-center mb-4">Hospital Gallery</h2>
+        <p data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
           Explore our facilities, modern patient rooms, and the compassionate environment we provide at LifeCare Hospital.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
           {galleryImages.slice(0, visibleCount).map((img, idx) => (
-            <div key={idx} className="overflow-hidden rounded-2xl shadow hover:shadow-lg shadow-blue-100 transition group">
+            <div data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
+             key={idx} className="overflow-hidden rounded-2xl shadow hover:shadow-lg shadow-blue-100 transition group">
               <img
                 src={img.src}
                 alt={img.alt}
@@ -52,7 +53,7 @@ const GallerySection = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-center mt-10 gap-4">
+        <div data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="flex justify-center mt-10 gap-4">
           {visibleCount < galleryImages.length && (
             <button
               onClick={handleShowMore}

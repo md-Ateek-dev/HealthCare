@@ -34,8 +34,8 @@ const services = [
   },
 ];
 
-const INITIAL_VISIBLE = 4;
-const LOAD_MORE = 2;
+const INITIAL_VISIBLE = 3;
+const LOAD_MORE = 3;
 
 const ServicesSection = () => {
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
@@ -70,7 +70,7 @@ const ServicesSection = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-center mt-10 gap-4">
+        <div data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="flex justify-center mt-10 gap-4">
           {visibleCount < services.length && (
             <button
               onClick={handleShowMore}

@@ -69,7 +69,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="w-full mx-auto">
+<div className="w-full mx-auto pt-10 sm:pt-12 lg:pt-16">
       <div className="relative w-full h-96 overflow-hidden bg-black">
 
         {/* Slides */}

@@ -74,13 +74,13 @@ const BlogsSection = () => {
   return (
     <section id="blogs" className="bg-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-800 text-center mb-4">Hospital Blog & Health Tips</h2>
-        <p className="text-base text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+        <h2 data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="text-3xl md:text-4xl font-bold text-blue-800 text-center mb-4">Hospital Blog & Health Tips</h2>
+        <p data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="text-base text-gray-600 text-center mb-10 max-w-2xl mx-auto">
           Stay updated with the latest health tips, hospital news, and inspiring patient stories from our community.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.slice(0, visibleCount).map((post, idx) => (
-            <div
+            <div data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"
               key={idx}
               className="bg-white border border-blue-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-5 flex flex-col max-w-md mx-auto group"
               style={{ minHeight: 370 }}
@@ -104,7 +104,7 @@ const BlogsSection = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-center mt-10 gap-4">
+        <div data-aos="fade-up" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out" className="flex justify-center mt-10 gap-4">
           {visibleCount < blogPosts.length && (
             <button
               onClick={handleShowMore}
