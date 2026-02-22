@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaUserMd, FaHospital, FaRegSmile } from 'react-icons/fa';
-import Hospital_bg from '/src/assets/hospital_About.avif'; // Use your hospital image here
+import Hospital_bg from "../../assets/Hospital_About.avif"
 
 const AboutSection = () => {
   return (
