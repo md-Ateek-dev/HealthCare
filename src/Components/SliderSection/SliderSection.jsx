@@ -9,55 +9,92 @@ import Hospital from '/src/assets/Hospita10.avif';
 
 const Carousel = () => {
   const slides = [
-    { id: 1, url: Doctor, title: 'Heart Surgery', subtitle: 'Advanced Cardiac Care' },
-    { id: 2, url: Doctor1, title: 'Expert Doctors', subtitle: 'World-Class Medical Team' },
-    { id: 3, url: Doctor2, title: 'Modern Equipment', subtitle: 'State-of-the-Art Technology' },
-    { id: 4, url: Doctor3, title: '24/7 Emergency', subtitle: 'Always Here When You Need Us' },
-    { id: 5, url: Hospital, title: 'Advanced Facilities', subtitle: 'Premium Healthcare Environment' },
+    { id: 1, url: Doctor, title: 'Heart Surgery', subtitle: 'Advanced Cardiac Care', badge: 'Specialized' },
+    { id: 2, url: Doctor1, title: 'Expert Doctors', subtitle: 'World-Class Medical Team', badge: 'Professional' },
+    { id: 3, url: Doctor2, title: 'Modern Equipment', subtitle: 'State-of-the-Art Technology', badge: 'Innovation' },
+    { id: 4, url: Doctor3, title: '24/7 Emergency', subtitle: 'Always Here When You Need Us', badge: 'Available' },
+    { id: 5, url: Hospital, title: 'Advanced Facilities', subtitle: 'Premium Healthcare Environment', badge: 'Comfort' },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [progress, setProgress] = useState(0);
   const intervalRef = useRef(null);
+  const progressIntervalRef = useRef(null);
 
-  const clearAutoPlay = () => intervalRef.current && clearInterval(intervalRef.current);
+  const SLIDE_DURATION = 6000;
 
   const startAutoPlay = () => {
-    clearAutoPlay();
+    clearInterval(intervalRef.current);
+    clearInterval(progressIntervalRef.current);
+
+    setProgress(0);
+
+    const startTime = Date.now();
+    progressIntervalRef.current = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      setProgress(Math.min((elapsed / SLIDE_DURATION) * 100, 100));
+    }, 50);
+
     intervalRef.current = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 5000);
+      handleNextSlide();
+    }, SLIDE_DURATION);
+  };
+
+  const stopAutoPlay = () => {
+    clearInterval(intervalRef.current);
+    clearInterval(progressIntervalRef.current);
+  };
+
+  const handleNextSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setTimeout(() => {
+      setIsTransitioning(false);
+      startAutoPlay();
+    }, 1000); // Wait for transition to finish
   };
 
   const prevSlide = () => {
     if (isTransitioning) return;
+    stopAutoPlay();
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-    setTimeout(() => setIsTransitioning(false), 1000);
+    setTimeout(() => {
+      setIsTransitioning(false);
+      startAutoPlay();
+    }, 1000);
   };
 
   const nextSlide = () => {
     if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsTransitioning(false), 1000);
+    stopAutoPlay();
+    handleNextSlide();
   };
 
   const goToSlide = (index) => {
     if (isTransitioning || index === currentIndex) return;
+    stopAutoPlay();
     setIsTransitioning(true);
     setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 1000);
+    setTimeout(() => {
+      setIsTransitioning(false);
+      startAutoPlay();
+    }, 1000);
   };
 
   useEffect(() => {
     startAutoPlay();
-    return clearAutoPlay;
-  }, []);
+    return () => stopAutoPlay();
+  }, []); // Re-run effect depends on nothing, but startAutoPlay captures state properly through prev
 
-  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+  const handleTouchStart = (e) => {
+    stopAutoPlay();
+    setTouchStart(e.targetTouches[0].clientX);
+  };
   const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
   const handleTouchEnd = () => {
     if (touchStart === null || touchEnd === null) return;
@@ -69,112 +106,131 @@ const Carousel = () => {
   };
 
   return (
-<div className="w-full mx-auto pt-10 sm:pt-12 lg:pt-16">
-      <div className="relative w-full h-96 overflow-hidden bg-black">
+    <div className="w-full mx-auto relative group">
+      <div className="relative w-full min-h-[500px] h-[60vh] lg:h-[85vh] overflow-hidden bg-slate-900 border-b-4 border-blue-500">
 
         {/* Slides */}
         <div className="absolute inset-0">
-          {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                index === currentIndex
-                  ? 'opacity-100 scale-100 pointer-events-auto'
-                  : 'opacity-0 scale-105 pointer-events-none'
-              }`}
-            >
-              <img
-                src={slide.url}
-                alt={slide.title}
-                className="w-full h-full object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
-            </div>
-          ))}
+          {slides.map((slide, index) => {
+            const isActive = index === currentIndex;
+            return (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                  }`}
+              >
+                {/* Image with Ken Burns Effect */}
+                <div className={`absolute inset-0 transition-transform duration-[10000ms] ease-out ${isActive ? 'scale-110' : 'scale-100'}`}>
+                  <img
+                    src={slide.url}
+                    alt={slide.title}
+                    className="w-full h-full object-cover object-center"
+                  />
+                  {/* Gradients for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-900/60 via-transparent to-transparent mix-blend-multiply" />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Text Content */}
-        <div className="absolute inset-0 flex items-center justify-center z-20">
-          <div className="text-center max-w-4xl px-6">
-            <div
-              className={`transform transition-all duration-1000 ${
-                isTransitioning
-                  ? 'translate-y-10 opacity-0'
-                  : 'translate-y-0 opacity-100'
-              }`}
-            >
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-none tracking-tight">
-                {slides[currentIndex].title}
+        <div className="absolute inset-0 z-20 flex flex-col justify-center px-8 md:px-16 lg:px-24">
+          <div className="max-w-4xl pt-20">
+            {/* Badge */}
+            <div className="overflow-hidden mb-4">
+              <div
+                className={`inline-block px-4 py-1.5 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-300 text-sm font-bold tracking-widest uppercase transform transition-all duration-1000 delay-300 ${isTransitioning ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'
+                  }`}
+              >
+                {slides[currentIndex].badge}
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="overflow-hidden mb-4">
+              <h1
+                className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight transform transition-all duration-1000 delay-100 ${isTransitioning ? 'translate-y-full opacity-0 skew-y-3' : 'translate-y-0 opacity-100 skew-y-0'
+                  }`}
+              >
+                {slides[currentIndex].title.split(' ').map((word, i, arr) => (
+                  <span key={i} className={i === arr.length - 1 ? "text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300" : ""}>
+                    {word}{" "}
+                  </span>
+                ))}
               </h1>
-              <p className="text-base sm:text-lg md:text-2xl lg:text-3xl text-white/90 font-light mb-8 leading-relaxed">
+            </div>
+
+            {/* Subtitle */}
+            <div className="overflow-hidden mb-10">
+              <p
+                className={`text-lg sm:text-xl md:text-2xl lg:text-3xl text-slate-300 font-light leading-relaxed transform transition-all duration-1000 delay-200 ${isTransitioning ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'
+                  }`}
+              >
                 {slides[currentIndex].subtitle}
               </p>
-
-              <div className="flex justify-center mb-8">
-                <div className="px-6 py-3 bg-white/20 backdrop-blur-lg rounded-full border border-white/30">
-                  <span className="text-white/90 text-lg font-medium">
-                    {String(currentIndex + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
-        {/* Arrows */}
-        <button
-          onClick={prevSlide}
-          disabled={isTransitioning}
-          className="absolute left-8 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-2xl disabled:opacity-50 z-30"
-        >
-          <ChevronLeft size={20} strokeWidth={1.5} />
-        </button>
+        {/* Side Controls (Arrows) */}
+        <div className="absolute right-8 bottom-12 z-30 flex items-center gap-4">
+          <div className="text-white/60 font-medium text-lg mr-4 hidden sm:block">
+            <span className="text-white font-bold">{String(currentIndex + 1).padStart(2, '0')}</span>
+            <span className="mx-2">/</span>
+            {String(slides.length).padStart(2, '0')}
+          </div>
 
-        <button
-          onClick={nextSlide}
-          disabled={isTransitioning}
-          className="absolute right-8 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110 shadow-2xl disabled:opacity-50 z-30"
-        >
-          <ChevronRight size={20} strokeWidth={1.5} />
-        </button>
-
-        {/* Dots */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-6 z-30">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              disabled={isTransitioning}
-              className={`relative group transition-all duration-300 ${
-                currentIndex === index ? 'scale-125' : 'hover:scale-110'
-              }`}
-            >
-              <div
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentIndex === index
-                    ? 'bg-white shadow-lg'
-                    : 'bg-white/40 group-hover:bg-white/70'
-                }`}
-              />
-              {currentIndex === index && (
-                <div className="absolute inset-0 w-3 h-3 rounded-full bg-white/30 animate-ping" />
-              )}
-            </button>
-          ))}
+          <button
+            onClick={prevSlide}
+            disabled={isTransitioning}
+            className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:scale-110 active:scale-95 disabled:opacity-50 disabled:hover:scale-100"
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft size={24} strokeWidth={2} />
+          </button>
+          <button
+            onClick={nextSlide}
+            disabled={isTransitioning}
+            className="w-12 h-12 rounded-full flex items-center justify-center bg-blue-600/80 hover:bg-blue-500 backdrop-blur-md border border-blue-400/50 text-white transition-all duration-300 hover:scale-110 active:scale-95 shadow-[0_0_20px_rgba(37,99,235,0.4)] disabled:opacity-50 disabled:hover:scale-100"
+            aria-label="Next Slide"
+          >
+            <ChevronRight size={24} strokeWidth={2} />
+          </button>
         </div>
 
-        {/* Progress Bar
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-          <div
-            className="h-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 transition-all duration-300 ease-out"
-            style={{ width: `${((currentIndex + 1) / slides.length) * 100}%` }}
-          />
-        </div> */}
+        {/* Dots Pagination */}
+        <div className="absolute left-8 md:left-16 lg:left-24 bottom-12 z-30 flex gap-3 items-center">
+          {slides.map((_, index) => {
+            const isActive = currentIndex === index;
+            return (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                disabled={isTransitioning}
+                className="group py-4 flex items-center justify-center focus:outline-none"
+                aria-label={`Go to slide ${index + 1}`}
+              >
+                <div
+                  className={`relative h-1.5 transition-all duration-500 ease-out rounded-full overflow-hidden ${isActive ? 'w-12 bg-white/20' : 'w-2 bg-white/40 group-hover:bg-white/70 group-hover:w-4'
+                    }`}
+                >
+                  {isActive && (
+                    <div
+                      className="absolute top-0 left-0 bottom-0 bg-blue-500 rounded-full"
+                      style={{ width: `${progress}%` }}
+                    />
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
 
-        {/* Touch Events */}
+        {/* Touch Events Layer */}
         <div
-          className="absolute inset-0 z-10"
+          className="absolute inset-0 z-10 touch-pan-y"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
